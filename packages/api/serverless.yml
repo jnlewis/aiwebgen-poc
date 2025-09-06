@@ -1,0 +1,67 @@
+service: aiwebgen-poc-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: us-east-1
+  environment:
+    apiKey: "<TODO_API_KEY>"
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "bedrock:InvokeModel"
+            - "bedrock:InvokeModelWithResponseStream"
+          Resource: "*"
+        - Effect: "Allow"
+          Action:
+            - "s3:GetObject"
+            - "s3:ListBucket"
+          Resource: 
+            - "arn:aws:s3:::<TODO_BUCKET_NAME>"
+            - "arn:aws:s3:::<TODO_BUCKET_NAME>/*"
+
+functions:
+  ChatStatic:
+    name: aiwebgen-pic-api-chat-static
+    handler: lib/chatStatic.handler
+    timeout: 900
+    url:
+      cors:
+        allowedOrigins:
+          - '*'
+        allowedHeaders:
+          - Content-Type
+          - aiwebgen-poc-key
+        allowedMethods:
+          - POST
+
+  ChatStream:
+    name: aiwebgen-pic-api-chat-stream
+    handler: lib/chatStream.handler
+    timeout: 900
+    url:
+      invokeMode: RESPONSE_STREAM
+      cors:
+        allowedOrigins:
+          - '*'
+        allowedHeaders:
+          - Content-Type
+          - aiwebgen-poc-key
+        allowedMethods:
+          - POST
+
+  Template:
+    name: aiwebgen-pic-api-template
+    handler: lib/template.handler
+    timeout: 60
+    url:
+      cors:
+        allowedOrigins:
+          - '*'
+        allowedHeaders:
+          - Content-Type
+          - aiwebgen-poc-key
+        allowedMethods:
+          - GET

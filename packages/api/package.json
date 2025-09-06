@@ -1,0 +1,21 @@
+{
+  "name": "aiwebgen-poc",
+  "version": "1.0.0",
+  "description": "Serverless API for AI Web Builder",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "serverless deploy"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.0.0",
+    "@aws-sdk/client-s3": "^3.0.0",
+    "lambda-stream": "^0.6.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.0",
+    "@types/node": "^20.0.0",
+    "serverless": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}
